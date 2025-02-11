@@ -1,6 +1,6 @@
 package main
 
-import "github.com/raps4g/litepost/core/ui"
+import "github.com/raps4g/litepost/internal/ui"
 
 func main() {
     ui := ui.InitUi()
