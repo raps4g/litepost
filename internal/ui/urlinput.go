@@ -2,24 +2,23 @@ package ui
 
 import (
 	"github.com/gdamore/tcell/v2"
+	"github.com/raps4g/litepost/internal/core"
 	"github.com/rivo/tview"
 )
 
-func (s *State) SetUrlInput() *State {
+func (ui *Ui) NewUrlInput(req *core.Request) *tview.InputField {
     
-    urlPlaceholder := "Enter URL"
-    s.UrlInput = tview.NewInputField()
-    s.UrlInput.
+    UrlInput := tview.NewInputField()
+    UrlInput.
         SetFieldStyle(defaultStyle).
         SetChangedFunc(func(text string) {
-            s.Request.Url = text
+            req.Url = text
         }).
-        SetText("https://google.com").
+        //SetText("http://localhost:8080/login").
         SetLabelStyle(defaultStyle).
         SetPlaceholderStyle(placeholderStyle).
-        SetPlaceholder(urlPlaceholder).
         SetDrawFunc(func(screen tcell.Screen, x int, y int, width int, height int) (int, int, int, int) {
-            tview.Print(screen, s.Request.Methods[s.SelectedMethod], x+2, y+1, 8, 0, foregroundColor)
+            tview.Print(screen, req.Methods[req.SelectedMethod], x+2, y+1, 8, 0, foregroundColor)
             screen.SetContent(x+9, y, tview.BoxDrawingsLightDownAndHorizontal, nil, borderStyle)
             screen.SetContent(x+9, y+1, tview.BoxDrawingsLightVertical, nil, borderStyle)
             screen.SetContent(x+9, y+2, tview.BoxDrawingsLightUpAndHorizontal, nil, borderStyle)
@@ -29,31 +28,8 @@ func (s *State) SetUrlInput() *State {
         SetBorderStyle(borderStyle).
         SetBorder(true).
         SetTitle(" URL ").
-        SetTitleColor(unfocusedTitleColor).
-        SetTitleAlign(0).
-        SetBlurFunc(func () {
-            s.UrlInput.SetPlaceholder(urlPlaceholder).
-                SetTitleColor(unfocusedTitleColor)
-        }).
-        SetTitleColor(tcell.ColorBlue).
-        SetFocusFunc(func () {
-            s.UrlInput.SetPlaceholder("").
-                SetTitleColor(focusedTitleColor)
-        }).
-        SetInputCapture(s.urlInputInputpCapture)
+        SetTitleColor(bluredTitleColor).
+        SetTitleAlign(0)
 
-    return s
-}
-
-func (s *State) urlInputInputpCapture(event *tcell.EventKey) *tcell.EventKey {
-
-    if event.Modifiers() == tcell.ModCtrl {
-       switch event.Key() {
-        case tcell.KeyLeft:
-            s.App.SetFocus(s.HistoryList)   
-        case tcell.KeyDown:
-            s.App.SetFocus(s.RequestInput)   
-       } 
-    }
-    return event
+    return UrlInput
 }

@@ -2,10 +2,12 @@ package core
 
 type Request struct {
     Url string
-    Body string
-    Response string
-    Status string
     SelectedMethod int
-    Headers map[string]string
+    ReqBody string
+    ReqHeaders map[string]string
+    Status string
+    RespBody string
+    RespHeaders map[string]string
     Methods []string
+    ParsedVariables map[string]string
 }

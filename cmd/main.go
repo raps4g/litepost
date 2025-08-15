@@ -3,7 +3,7 @@ package main
 import "github.com/raps4g/litepost/internal/ui"
 
 func main() {
-    ui := ui.InitUi()
+    appContext := ui.InitAppContext()
     
-    ui.App.Run()
+    appContext.App.Run()
 }

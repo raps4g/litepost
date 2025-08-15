@@ -2,37 +2,35 @@ package ui
 
 import (
 	"github.com/gdamore/tcell/v2"
+	"github.com/raps4g/litepost/internal/core"
 	"github.com/rivo/tview"
 )
 
-func (s *State) SetMethodList() *State {
-    s.MethodList = tview.NewList()
-    s.MethodList.SetMainTextStyle(defaultStyle).
+func (ui *Ui) NewMethodList(req *core.Request) *tview.List {
+    MethodList := tview.NewList()
+    MethodList.SetMainTextStyle(defaultStyle).
         ShowSecondaryText(false).
         SetSelectedFocusOnly(true).
         SetHighlightFullLine(true).
         SetSelectedFunc(func(i int, s1, s2 string, r rune) {
-            s.SelectedMethod = i
+            req.SelectedMethod = i
         }).
         SetShortcutStyle(placeholderStyle).
         SetTitle(" Method ").
         SetTitleColor(focusedTitleColor).
         SetBorder(true).
         SetBackgroundColor(backgroundColor).
-        SetBorderStyle(borderStyle).
-        SetInputCapture(s.methodListInputCapture)
+        SetBorderStyle(borderStyle)
 
-    for i, m := range s.Methods {
-        s.MethodList.AddItem(m, "", rune('1'+i), nil)
+    for i, m := range req.Methods {
+        MethodList.AddItem(m, "", rune('1'+i), nil)
     }
 
-    return s
+    return MethodList
 }
 
-func (s *State) methodListInputCapture(event *tcell.EventKey) *tcell.EventKey {
+func (ui *Ui) methodListInputCapture(event *tcell.EventKey) *tcell.EventKey {
     if event.Key() == tcell.KeyEnter {
-        s.removeModal("method_modal")
-        s.removeFooter("method_footer")
     }    
     return event
 }
