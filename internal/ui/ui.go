@@ -34,6 +34,7 @@ type Ui struct {
 	FooterPages          *tview.Pages
     MainPages            *tview.Pages
     ParsedVariablesTable *KeyValueTable
+    HelpPage             *tview.TextView
 }
 
 func setCustomBorders() {

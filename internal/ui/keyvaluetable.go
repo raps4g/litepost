@@ -107,8 +107,6 @@ func (table *KeyValueTable) SetEditableInputCapture(ui *Ui) {
                 table.AddKeyHandler(ui)
             case event.Rune() == 'd':
                 table.DeleteKey(row, col)
-            case event.Rune() == 'p':
-                table.AddAsVariableHandler(row, col, ui)
             }
 
             return event

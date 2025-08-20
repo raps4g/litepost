@@ -12,7 +12,6 @@ func (ui *Ui) NewRequestBodyInput(req *core.Request) *tview.TextArea {
     RequestBodyInput.
         SetPlaceholder(bodyPlaceholder).
         SetTextStyle(defaultStyle).
-        SetText(`{"username":"user","password":"test"}`,false).
         SetLabelStyle(defaultStyle).
         SetPlaceholderStyle(placeholderStyle).
         SetChangedFunc(func() {

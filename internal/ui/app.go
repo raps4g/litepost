@@ -28,6 +28,7 @@ func SetApp(req *core.Request, vars *map[string]string, hist *[]core.Request) *t
     ui.MethodList = ui.NewMethodList(req)
     ui.ParsedVariablesTable = ui.NewKeyValueTable(&req.ParsedVariables, "variable", false)
     ui.ParsedVariablesTable.SetSelectable(true,false).SetBorder(true).SetTitle(" Parsed Variables ").SetTitleColor(focusedTitleColor).SetBorderStyle(borderStyle)
+    ui.HelpPage = ui.NewHelpPage()
 
     ui.FooterPages = tview.NewPages()
     setCustomBorders()
