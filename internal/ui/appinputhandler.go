@@ -1,9 +1,6 @@
 package ui
 
 import (
-    "fmt"
-	// "errors"
-	// "net"
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/raps4g/litepost/internal/core"
@@ -49,10 +46,12 @@ func (ui *Ui) SendRequestHandler(req *core.Request, variables *map[string]string
     err := core.SendHttpRequest(req, variables)
 
     if err != nil {
-        req.RespBody = fmt.Sprintf("%q", err.Error())
+        req.RespBody = "[red]" + core.GetErrorDescription(err)
+        req.Status = ""
         ui.loadResponse(req)
         return
     } 
     ui.AddHistoryEntry(req)
     ui.loadResponse(req)
 }
+

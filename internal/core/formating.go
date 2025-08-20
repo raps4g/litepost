@@ -2,7 +2,9 @@ package core
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"net"
 	"net/url"
 	"strings"
 )
@@ -84,4 +86,33 @@ func PrettyPrintJSON(input string) (string, error) {
 	}
 
 	return string(prettyJSON), nil
+}
+
+func GetErrorDescription(err error) string {
+
+	var dnsErr *net.DNSError
+	if errors.As(err, &dnsErr) {
+		if dnsErr.IsNotFound {
+			return fmt.Sprintf("DNS lookup failed: no such host '%s'", dnsErr.Name)
+		}
+		if dnsErr.IsTemporary {
+			return fmt.Sprintf("Temporary DNS error for host '%s'", dnsErr.Name)
+		}
+		return fmt.Sprintf("DNS error: %v", dnsErr)
+	}
+
+	var netErr net.Error
+	if errors.As(err, &netErr) {
+		if netErr.Timeout() {
+			return "network timeout"
+		}
+		return fmt.Sprintf("network error: %v", netErr)
+	}
+
+	var urlErr *url.Error
+	if errors.As(err, &urlErr) {
+		return fmt.Sprintf("error during %s to %s: %v", urlErr.Op, urlErr.URL, urlErr.Err)
+	}
+
+	return err.Error()
 }
